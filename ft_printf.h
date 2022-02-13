@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 05:43:59 by atchougo          #+#    #+#             */
-/*   Updated: 2022/02/13 21:27:45 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/02/13 21:56:21 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ void	ft_putadr(unsigned long p, int * r);
 void	ft_putnbr_u(unsigned int n, int * r);
 void	ft_puthexa_low(int n, int * r);
 void	ft_puthexa_up(int n, int * r);
-void	ft_putchar_printf(char *c, int *r);
+void	ft_putchar_printf(char c, int *r);
 
 #endif
