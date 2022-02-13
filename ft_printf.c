@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 07:49:01 by atchougo          #+#    #+#             */
-/*   Updated: 2022/02/13 21:30:13 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/02/13 21:58:53 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static int	ft_is_ok(char c)
 // 	}
 // }
 
-void	ft_putchar_printf(char *c, int *r)
+void	ft_putchar_printf(char c, int *r)
 {
-	write(1, c, 1);
+	write(1, &c, 1);
 	*r += 1;
 }
 
@@ -79,21 +79,20 @@ static void	ft_putstr(char *c, int *r)
 
 static void	ft_print_it(const char s, va_list p, int *r)
 {
-	static void	(*f_char[4])(char *, int *) = {NULL, ft_putchar_printf,
-		NULL, ft_putstr};
     static void	(*f_int[9])(int, int *) = {NULL, NULL,
 		ft_putnbr_printf, NULL, ft_puthexa_up, NULL, NULL,
 		ft_putnbr_printf, ft_puthexa_low};
-
 	if (s == '%')
-		ft_putchar_printf((char *) '%', r);
-    else if (s % 14 == 1 || s % 14 == 3)
-        f_char[s % 14](va_arg(p, char *), r);
+		ft_putchar_printf('%', r);
+    else if (s % 14 == 1)
+        ft_putchar_printf(va_arg(p, int), r);
+    else if (s % 14 == 3)
+        ft_putstr(va_arg(p, char *), r);
     else if (s % 14 == 5)
         ft_putnbr_u(va_arg(p, unsigned int), r);
-    else if (s % 14 > 1 || s % 14 < 9)
+    else if (s % 14 > 1 && s % 14 < 9)
         f_int[s % 14](va_arg(p, int), r);
-	else if (s == 'p')
+	else if (s % 14 == 0)
     {
 		ft_putstr("0x", r);
 	    ft_putadr(va_arg(p, unsigned long), r);
@@ -125,7 +124,7 @@ int	ft_printf(const char *s, ...)
 		{
 			//temp = (void *) s;
 			//ft_putchar_printf((void *) *s, &result);
-            ft_putchar_printf((char *)s, &result);
+            ft_putchar_printf(*(char *)s, &result);
 		}
 		else if (*s++ == '%' && ft_is_ok(*s--))
 			ft_print_it(*++s, ptr, &result);
@@ -135,29 +134,28 @@ int	ft_printf(const char *s, ...)
 	return (result);
 }
 
-int main()
-{
-    int u = 9;
-    //ft_printf("c : %c \nx : %x \nX : %X",'T', 95, 95);
-    printf   ("printf    %%p : %p\n", &u);
-    ft_printf("ft_printf %%p : %p\n",&u);
-    printf   ("printf    %%c : %c\n", 'z');
-    ft_printf("ft_printf %%c : %c\n", 'z');
-    printf   ("printf    %%d : %d\n", 745);
-    ft_printf("ft_printf %%d : %d\n", 745);
-    printf   ("printf    %%s : %s\n","MDR lol 2 ptdr");
-    ft_printf("ft_printf %%s : %s\n","MDR lol 2 ptdr");
-    printf   ("printf    %%X : %X\n", 967);
-    ft_printf("ft_printf %%X : %X\n", 967);
-    printf   ("printf    %%u : %u\n", -12);
-    ft_printf("ft_printf %%u : %u\n", -12);
-    printf   ("printf    %%i : %i\n", -12);
-    ft_printf("ft_printf %%i : %i\n", -12);
-    printf   ("printf    %%x : %x\n", 967);
-    ft_printf("ft_printf %%x : %x\n", 967);
+// int main()
+// {
+//     int u = 9;
+//     //ft_printf("c : %c \nx : %x \nX : %X",'T', 95, 95);
+//     printf   ("printf    %%p : %p\n", &u);
+//     ft_printf("ft_printf %%p : %p\n", &u);
+//     printf   ("printf    %%c : %c\n", 'z');
+//     ft_printf("ft_printf %%c : %c\n", 'z');
+//     printf   ("printf    %%d : %d\n", 745);
+//     ft_printf("ft_printf %%d : %d\n", 745);
+//     printf   ("printf    %%s : %s\n","MDR lol 2 ptdr");
+//     ft_printf("ft_printf %%s : %s\n","MDR lol 2 ptdr");
+//     printf   ("printf    %%X : %X\n", 967);
+//     ft_printf("ft_printf %%X : %X\n", 967);
+//     printf   ("printf    %%u : %u\n", -12);
+//     ft_printf("ft_printf %%u : %u\n", -12);
+//     printf   ("printf    %%i : %i\n", -12);
+//     ft_printf("ft_printf %%i : %i\n", -12);
+//     printf   ("printf    %%x : %x\n", 967);
+//     ft_printf("ft_printf %%x : %x\n", 967);
 
 
-    //ft_printf("ft_printf %%p : %p\n",&u);
-    //ft_printf("ceci est un test avec : %c et %y\n\n",'1');
-}
-
+//     //ft_printf("ft_printf %%p : %p\n",&u);
+//     //ft_printf("ceci est un test avec : %c et %y\n\n",'1');
+// }
