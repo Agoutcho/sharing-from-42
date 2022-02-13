@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 19:15:14 by atchougo          #+#    #+#             */
-/*   Updated: 2022/02/13 21:30:28 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/02/13 21:57:54 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,11 @@ void ft_puthexa_up(int n, int * r)
     if (number < 0)
     {
         number = -number;
-        ft_putchar_printf("-", r);
+        ft_putchar_printf('-', r);
     }
     if (number > 15)
         ft_puthexa_up((number / 16), r);
-    ft_putchar_printf(&hexa[number % 16], r); 
+    ft_putchar_printf(hexa[number % 16], r); 
 }
 
 void ft_puthexa_low(int n, int * r)
@@ -114,11 +114,11 @@ void ft_puthexa_low(int n, int * r)
     if (number < 0)
     {
         number = -number;
-        ft_putchar_printf("-", r);
+        ft_putchar_printf('-', r);
     }
     if (number > 15)
         ft_puthexa_low((number / 16), r);
-    ft_putchar_printf(&hexa[number % 16], r); 
+    ft_putchar_printf(hexa[number % 16], r); 
 }
 
 void ft_putnbr_u(unsigned int n, int * r)
@@ -130,19 +130,19 @@ void ft_putnbr_u(unsigned int n, int * r)
     decimal = "0123456789";
     if (number > 9)
         ft_putnbr_u((number / 10), r);
-    ft_putchar_printf(&decimal[number % 10], r); 
+    ft_putchar_printf(decimal[number % 10], r); 
 }
 
-void ft_putadr(unsigned long p, int * r)
+void ft_putadr(unsigned long p, int *r)
 {
     unsigned long nb;
-    char * hexa;
+    char *hexa;
 
     nb = p;
     hexa = "0123456789abcdef";
     if (nb > 15)
         ft_putadr((nb / 16), r);
-    ft_putchar_printf(&hexa[nb % 16], r); 
+    ft_putchar_printf(hexa[nb % 16], r); 
 }
 
 void	ft_putnbr_printf(int n, int *r)
@@ -155,9 +155,9 @@ void	ft_putnbr_printf(int n, int *r)
     if (number < 0)
     {
         number = -number;
-        ft_putchar_printf("-", r);
+        ft_putchar_printf('-', r);
     }
     if (number > 9)
         ft_putnbr_printf((number / 10), r);
-    ft_putchar_printf(decimal + (number % 10), r); 
+    ft_putchar_printf(decimal[number % 10], r); 
 }
