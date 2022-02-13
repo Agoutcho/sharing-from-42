@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 07:49:01 by atchougo          #+#    #+#             */
-/*   Updated: 2022/02/13 21:58:53 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/02/13 22:41:50 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,20 +82,25 @@ static void	ft_print_it(const char s, va_list p, int *r)
     static void	(*f_int[9])(int, int *) = {NULL, NULL,
 		ft_putnbr_printf, NULL, ft_puthexa_up, NULL, NULL,
 		ft_putnbr_printf, ft_puthexa_low};
-	if (s == '%')
+    void *temp;
+
+    temp = va_arg(p, void *);
+    if (s == '%')
 		ft_putchar_printf('%', r);
     else if (s % 14 == 1)
-        ft_putchar_printf(va_arg(p, int), r);
-    else if (s % 14 == 3)
-        ft_putstr(va_arg(p, char *), r);
+        ft_putchar_printf((char)temp, r);
+    else if (s % 14 == 3 && temp != NULL)
+        ft_putstr((char *)temp, r);
+    else if (s % 14 == 3 && temp == NULL)
+        ft_putstr("(null)", r);
     else if (s % 14 == 5)
-        ft_putnbr_u(va_arg(p, unsigned int), r);
+        ft_putnbr_u((unsigned int)temp, r);
     else if (s % 14 > 1 && s % 14 < 9)
-        f_int[s % 14](va_arg(p, int), r);
+        f_int[s % 14]((int)temp, r);
 	else if (s % 14 == 0)
     {
 		ft_putstr("0x", r);
-	    ft_putadr(va_arg(p, unsigned long), r);
+	    ft_putadr((unsigned long)temp, r);
     }
 }
 /*
@@ -134,28 +139,31 @@ int	ft_printf(const char *s, ...)
 	return (result);
 }
 
-// int main()
-// {
-//     int u = 9;
-//     //ft_printf("c : %c \nx : %x \nX : %X",'T', 95, 95);
-//     printf   ("printf    %%p : %p\n", &u);
-//     ft_printf("ft_printf %%p : %p\n", &u);
-//     printf   ("printf    %%c : %c\n", 'z');
-//     ft_printf("ft_printf %%c : %c\n", 'z');
-//     printf   ("printf    %%d : %d\n", 745);
-//     ft_printf("ft_printf %%d : %d\n", 745);
-//     printf   ("printf    %%s : %s\n","MDR lol 2 ptdr");
-//     ft_printf("ft_printf %%s : %s\n","MDR lol 2 ptdr");
-//     printf   ("printf    %%X : %X\n", 967);
-//     ft_printf("ft_printf %%X : %X\n", 967);
-//     printf   ("printf    %%u : %u\n", -12);
-//     ft_printf("ft_printf %%u : %u\n", -12);
-//     printf   ("printf    %%i : %i\n", -12);
-//     ft_printf("ft_printf %%i : %i\n", -12);
-//     printf   ("printf    %%x : %x\n", 967);
-//     ft_printf("ft_printf %%x : %x\n", 967);
+//  int main()
+//  {
+// //     int u = 9;
+// //     ft_printf("c : %c \nx : %x \nX : %X",'T', 95, 95);
+// //     printf   ("printf    %%p : %p\n", &u);
+// //     ft_printf("ft_printf %%p : %p\n", &u);
+//      printf   ("printf    %%c : %c\n", 0);
+//      ft_printf("ft_printf %%c : %c\n", 0);
+//      printf("%d\n",printf   ("printf    %%c : %c\n", 0));
+//      ft_printf("%d\n",ft_printf   ("printf    %%c : %c\n", 0));
+// //     printf   ("printf    %%d : %d\n", 745);
+// //     ft_printf("ft_printf %%d : %d\n", 745);
+// //     printf   ("printf    %%s : %s\n", NULL);
+// //     ft_printf("ft_printf %%s : %s\n", NULL);
+// //     printf   ("printf    %%X : %X\n", 967);
+// //     ft_printf("ft_printf %%X : %X\n", 967);
+// //     printf   ("printf    %%u : %u\n", -12);
+// //     ft_printf("ft_printf %%u : %u\n", -12);
+// //     printf   ("printf    %%i : %i\n", -12);
+// //     ft_printf("ft_printf %%i : %i\n", -12);
+// //     printf   ("printf    %%x : %x\n", 967);
+// //     ft_printf("ft_printf %%x : %x\n", 967);
 
 
-//     //ft_printf("ft_printf %%p : %p\n",&u);
-//     //ft_printf("ceci est un test avec : %c et %y\n\n",'1');
-// }
+// //     //ft_printf("ft_printf %%p : %p\n",&u);
+// //     //ft_printf("ceci est un test avec : %c et %y\n\n",'1');
+//  }
+
