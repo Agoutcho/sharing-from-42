@@ -46,7 +46,7 @@ static void	ft_print_it(const char s, va_list p, int *r)
 
 	if (!(s == '%'))
     	temp = va_arg(p, void *);
-    else if (s == '%')
+    	if (s == '%')
 		ft_putchar_printf('%', r);
     else if (s % 14 == 1)
         ft_putchar_printf((char)temp, r);
