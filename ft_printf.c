@@ -6,7 +6,7 @@
 /*   By: atchougo <atchougo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 07:49:01 by atchougo          #+#    #+#             */
-/*   Updated: 2022/02/13 22:41:50 by atchougo         ###   ########.fr       */
+/*   Updated: 2022/02/20 17:50:10 by atchougo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,6 @@ static int	ft_is_ok(char c)
 	else
 		return (0);
 }
-
-// void	ft_putchar_printf(void *c, int *r)
-// {
-// 	char	temp;
-
-// 	temp = (char)c;
-// 	write(1, &temp, 1);
-// 	*r += 1;
-// }
-
-// static void	ft_putstr(void *c, int *r)
-// {
-// 	char	*temp;
-
-// 	temp = (char *)c;
-// 	while (*temp)
-// 	{
-// 		write(1, temp, 1);
-// 		*r += 1;
-// 		temp++;
-// 	}
-// }
 
 void	ft_putchar_printf(char c, int *r)
 {
@@ -59,24 +37,6 @@ static void	ft_putstr(char *c, int *r)
 	}
 }
 
-// static void	ft_print_it(const char s, va_list p, int *r)
-// {
-// 	static void	(*f[9])(void *, int *) = {ft_putadr, ft_putchar_printf,
-// 		ft_putnbr_printf, ft_putstr, ft_puthexa_up, ft_putnbr_u, NULL,
-// 		ft_putnbr_printf, ft_puthexa_low};
-// 	void		*pap;
-
-// 	if (s == '%')
-// 	{
-// 		ft_putchar_printf((void *) '%', r);
-// 		return ;
-// 	}
-// 	else if (s == 'p')
-// 		ft_putstr((void *)"0x", r);
-// 	pap = va_arg(p, void *);
-// 	f[s % 14](pap, r);
-// }
-
 static void	ft_print_it(const char s, va_list p, int *r)
 {
     static void	(*f_int[9])(int, int *) = {NULL, NULL,
@@ -84,8 +44,9 @@ static void	ft_print_it(const char s, va_list p, int *r)
 		ft_putnbr_printf, ft_puthexa_low};
     void *temp;
 
-    temp = va_arg(p, void *);
-    if (s == '%')
+	if (!(s == '%'))
+    	temp = va_arg(p, void *);
+    else if (s == '%')
 		ft_putchar_printf('%', r);
     else if (s % 14 == 1)
         ft_putchar_printf((char)temp, r);
@@ -119,18 +80,13 @@ int	ft_printf(const char *s, ...)
 {
 	int		result;
 	va_list	ptr;
-	//void	*temp;
-
+	
 	va_start(ptr, s);
 	result = 0;
 	while (*s)
 	{
 		if (!(*s == '%'))
-		{
-			//temp = (void *) s;
-			//ft_putchar_printf((void *) *s, &result);
             ft_putchar_printf(*(char *)s, &result);
-		}
 		else if (*s++ == '%' && ft_is_ok(*s--))
 			ft_print_it(*++s, ptr, &result);
 		s++;
@@ -142,13 +98,13 @@ int	ft_printf(const char *s, ...)
 //  int main()
 //  {
 // //     int u = 9;
-// //     ft_printf("c : %c \nx : %x \nX : %X",'T', 95, 95);
-// //     printf   ("printf    %%p : %p\n", &u);
-// //     ft_printf("ft_printf %%p : %p\n", &u);
-//      printf   ("printf    %%c : %c\n", 0);
-//      ft_printf("ft_printf %%c : %c\n", 0);
-//      printf("%d\n",printf   ("printf    %%c : %c\n", 0));
-//      ft_printf("%d\n",ft_printf   ("printf    %%c : %c\n", 0));
+//     // ft_printf("c : %c \nx : %x \nX : %X",'T', 95, 95);
+//     // printf   ("printf    %%p : %p\n", &u);
+//     // ft_printf("ft_printf %%p : %p\n", &u);
+//     //  printf   ("printf    %%c : %c\n", 0);
+//     //  ft_printf("ft_printf %%c : %c\n", 0);
+//     //  printf("%d\n",printf   ("printf    %%c : %c\n", 0));
+//     //  ft_printf("%d\n",ft_printf   ("printf    %%c : %c\n", 0));
 // //     printf   ("printf    %%d : %d\n", 745);
 // //     ft_printf("ft_printf %%d : %d\n", 745);
 // //     printf   ("printf    %%s : %s\n", NULL);
@@ -159,11 +115,15 @@ int	ft_printf(const char *s, ...)
 // //     ft_printf("ft_printf %%u : %u\n", -12);
 // //     printf   ("printf    %%i : %i\n", -12);
 // //     ft_printf("ft_printf %%i : %i\n", -12);
-// //     printf   ("printf    %%x : %x\n", 967);
-// //     ft_printf("ft_printf %%x : %x\n", 967);
+//  printf("%%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %c%%", 'A', "42", 42, 42 ,42 , 42, 42, 'B', "-42", -42, -42 ,-42 ,-42, 42, 'C', "0", 0, 0 ,0 ,0, 42, 0);
+//  printf("\n");
+//  ft_printf("%%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %c%%", 'A', "42", 42, 42 ,42 , 42, 42, 'B', "-42", -42, -42 ,-42 ,-42, 42, 'C', "0", 0, 0 ,0 ,0, 42, 0);
 
+
+//     // printf   ("printf    %%x : %x\n", 14);
+//     // ft_printf("ft_printf %%x : %x\n", 14);
+// 	//printf ("'x' %% 14 = %d\n'X' %% 14 = %d\n",('x' % 14), ('X' % 14));
 
 // //     //ft_printf("ft_printf %%p : %p\n",&u);
 // //     //ft_printf("ceci est un test avec : %c et %y\n\n",'1');
 //  }
-
